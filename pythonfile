@@ -1,5 +1,2 @@
-array = [2,5]
-temp = array[0]
-array[0] = array[1]
-array[1] = temp 
-print(array)
+from tkinter import *
+
