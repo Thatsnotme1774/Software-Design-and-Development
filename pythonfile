@@ -1,2 +1,1 @@
-zarif
-
+from tkinter import *
