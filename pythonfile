@@ -1,16 +1,29 @@
 import tkinter as tk
 
 #the main application window
+
 root = tk.Tk()
 
 #variables
+
 geo = "300x300"
 canvaswidth = 300
 canvasheight = 300
-canvascolor ="blue"
+canvascolor ="black"
 labelback = "white"
-size = 12
+startnumsize = 12
+startnumx = 3
+startnumy = 1
+numOftermsize = 11
+numOFtermx = 3
+numOFtermy = 30
+progressionnumsize = 16
+progressionnumx = 3
+progressionnumy = 58
+
+
 #Fucntions
+
 def destroy():
     root.destroy()
 def switch():
@@ -22,7 +35,8 @@ def calulator():
     root.geometry(geo)
 
     #Canvas
-    Background = tk.Canvas(root, width=canvaswidth, height=canvasheight, bg=canvascolor).pack
+    Background = tk.Canvas(root, width=canvaswidth, height=canvasheight, bg=canvascolor)
+    Background.pack()
 
 
     #Menu
@@ -39,10 +53,19 @@ def calulator():
     file_menu.add_command(label='Exit', command=destroy)
     
     #Labels
-    Label1 = tk.Label(root, text=("Starting Number"), font=("Arial", size), bg=labelback)
-    Label1.place(x=3, y=1)
+        #Starting number
 
+    Startingnum = tk.Label(root, text=("Starting Number"), font=("Arial", startnumsize), bg=labelback)
+    Startingnum.place(x=startnumx, y=startnumy)
+
+        #Number of Terms
+
+    Numofterms = tk.Label(root, text=("Number of Terms"), font=("Arial(", numOftermsize), bg=labelback)
+    Numofterms.place(x=numOFtermx, y=numOFtermy)
     
+        #Progression Number
+    Progressionnum =tk.Label(root, text=("Progression"), font=("Arial(", progressionnumsize), bg=labelback)
+    Progressionnum.place(x=progressionnumx, y=progressionnumy)
     
     root.mainloop()
 
