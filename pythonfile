@@ -1,38 +1,78 @@
-from tkinter import * #imports all from tkinter
-root = Tk() #main instance that we are creating
-root.title("hello world") #assigns the title hello world
-root.geometry("400x400") #increases size of the box
+import tkinter as tk
+
+#the main application window
+
+root = tk.Tk()
+
+#variables
+
+geo = "300x300"
+canvaswidth = 300
+canvasheight = 300
+canvascolor ="black"
+labelback = "white"
+startnumsize = 12
+startnumx = 3
+startnumy = 1
+numOftermsize = 11
+numOFtermx = 3
+numOFtermy = 30
+progressionnumsize = 16
+progressionnumx = 3
+progressionnumy = 58
 
 
-#label1 = Label(root, text="hello world").pack() #creates label widget and places into root, text = hello world. Pack places it anywhere while grid is mrore specific.
-#label2 = Label(root, text="This is the second label", fg ="white", bg ="black", font=("Helvtica", 32), relief="groove" ).pack() #fg = text color or foreground while bg is back ground, font is used("name", size ), relief is used to add effect to add appearance (sunken, raised, groove, ridge or flat which is the default one)
-#label3 = Label(root, text= "This is the third thext", relief ="ridge", state="disabled") #state ="normal/disabled" used for buttons to grey out something
-#label3.grid(row=100, column=1,pady=50, padx=50) #used mainly for grids, padx and pady moves it
-#Label1 =Label(root, text="Label 1", bg = "red").grid(row=2, column=1) #remmember to use padx and pady if you don't want adjacent 
-#Label3 =Label(root, text="Label 1", bg = "black").grid
-#Label2 =Label(root, text="Label 1", bg = "blue").grid()
+#Fucntions
 
-def hide():
-    label1.pack_forget()
-def show():
-    label1.pack()
-def clicked():
-    global label1
-    label1 = Label(root, text =ent.get())
-    label1.pack()
-ent = Entry(root, width=300, font=("Verdana, 18"))
-ent.pack(pady=20) #creates entry on root and packs it
+def destroy():
+    root.destroy()
+def switch():
+    pass
+def switch2():
+    pass
+def calulator():
+    root.title("AP and GP calculator")
+    root.geometry(geo)
 
-button1 = Button(root, text="PRESS", command=clicked)
-button1.pack()
-hide = Button(root, text="HIDE", command=hide).pack()
-show = Button(root, text="SHOW", command=show).pack()
+    #Canvas
+    Background = tk.Canvas(root, width=canvaswidth, height=canvasheight, bg=canvascolor)
+    Background.pack()
 
 
+    #Menu
+    menubar = tk.Menu(root)
+    root.config(menu=menubar)
+
+        #Adding a file button
+    file_menu = tk.Menu(menubar, tearoff=0)
+    menubar.add_cascade(label='File', menu=file_menu)
+
+        #Adding 
+    file_menu.add_command(label='Switch Theme Yellow', command=switch)
+    file_menu.add_command(label='Switch Theme Dark', command=switch2)
+    file_menu.add_command(label='Exit', command=destroy)
+    
+    #Labels
+        #Starting number
+
+    Startingnum = tk.Label(root, text=("Starting Number"), font=("Arial", startnumsize), bg=labelback)
+    Startingnum.place(x=startnumx, y=startnumy)
+
+        #Number of Terms
+
+    Numofterms = tk.Label(root, text=("Number of Terms"), font=("Arial(", numOftermsize), bg=labelback)
+    Numofterms.place(x=numOFtermx, y=numOFtermy)
+    
+        #Progression Number
+    Progressionnum =tk.Label(root, text=("Progression"), font=("Arial(", progressionnumsize), bg=labelback)
+    Progressionnum.place(x=progressionnumx, y=progressionnumy)
+    
+    root.mainloop()
 
 
 
 
 
 
-root.mainloop() #runs the program, it is a loop and has to be on the bottom
+calulator()
+
