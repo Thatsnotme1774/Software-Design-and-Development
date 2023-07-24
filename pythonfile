@@ -1,8 +1,15 @@
-imimport tkinter as tk
+import tkinter as tk
+
 #the main application window
 root = tk.Tk()
+
 #variables
-geo = "400x400"
+geo = "300x300"
+canvaswidth = 300
+canvasheight = 300
+canvascolor ="blue"
+labelback = "white"
+size = 12
 #Fucntions
 def destroy():
     root.destroy()
@@ -13,16 +20,28 @@ def switch2():
 def calulator():
     root.title("AP and GP calculator")
     root.geometry(geo)
-    
-    #Creating a menu
+
+    #Canvas
+    Background = tk.Canvas(root, width=canvaswidth, height=canvasheight, bg=canvascolor).pack
+
+
+    #Menu
     menubar = tk.Menu(root)
     root.config(menu=menubar)
+
+        #Adding a file button
     file_menu = tk.Menu(menubar, tearoff=0)
     menubar.add_cascade(label='File', menu=file_menu)
+
+        #Adding 
     file_menu.add_command(label='Switch Theme Yellow', command=switch)
     file_menu.add_command(label='Switch Theme Dark', command=switch2)
     file_menu.add_command(label='Exit', command=destroy)
     
+    #Labels
+    Label1 = tk.Label(root, text=("Starting Number"), font=("Arial", size), bg=labelback)
+    Label1.place(x=3, y=1)
+
     
     
     root.mainloop()
