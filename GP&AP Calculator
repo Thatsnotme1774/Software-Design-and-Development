@@ -1,5 +1,5 @@
 import tkinter as tk
-
+import customtkinter as ctk
 #the main application window
 
 root = tk.Tk()
@@ -9,11 +9,13 @@ root = tk.Tk()
 geo = "300x300"
 canvaswidth = 300
 canvasheight = 300
-canvascolor ="black"
+canvascolor ="white"
 labelback = "white"
 startnumsize = 12
 startnumx = 3
 startnumy = 1
+startnumtx = 130
+startnumty = 5
 numOftermsize = 11
 numOFtermx = 3
 numOFtermy = 30
@@ -64,10 +66,17 @@ def calulator():
     Numofterms.place(x=numOFtermx, y=numOFtermy)
     
         #Progression Number
-    Progressionnum =tk.Label(root, text=("Progression"), font=("Arial(", progressionnumsize), bg=labelback)
+    Progressionnum =tk.Label(root, text=("Increment"), font=("Arial(", progressionnumsize), bg=labelback)
     Progressionnum.place(x=progressionnumx, y=progressionnumy)
-    
+    #TextBOx
+        #Text box
+    StartingnumTxt = tk.Entry(root)
+    StartingnumTxt.place(x=startnumtx, y=startnumty)
+
+
     root.mainloop()
+
+
 
 
 
