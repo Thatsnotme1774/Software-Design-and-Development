@@ -1,0 +1,88 @@
+import tkinter as tk
+import customtkinter as ctk
+#the main application window
+
+root = ctk.CTk()
+
+#variables
+
+geo = "500x500"
+canvaswidth = 400
+canvasheight = 400
+canvascolor ="black"
+labelback = "white"
+startnumsize = 12
+startnumx = 3
+startnumy = 1
+startnumtx = 130
+startnumty = 5
+numOftermsize = 11
+numOFtermx = 3
+numOFtermy = 30
+progressionnumsize = 16
+progressionnumx = 3
+progressionnumy = 58
+
+
+#Fucntions
+
+ctk.set_default_color_theme("blue")
+root.configure(bg='red')
+def destroy():
+    root.destroy()
+def switch():
+    pass
+def switch2():
+    pass
+def calulator():
+    root.title("AP and GP calculator")
+    root.geometry(geo)
+
+    #Canvas
+    Background = ctk.CTkCanvas(root, width=canvaswidth, height=canvasheight, bg=canvascolor)
+    Background.pack()
+
+
+    #Menu
+    menubar = tk.Menu(root)
+    root.config(menu=menubar)
+
+        #Adding a file button
+    file_menu = tk.Menu(menubar, tearoff=0)
+    menubar.add_cascade(label='File', menu=file_menu)
+
+        #Adding 
+    file_menu.add_command(label='Switch Theme Yellow', command=switch)
+    file_menu.add_command(label='Switch Theme Dark', command=switch2)
+    file_menu.add_command(label='Exit', command=destroy)
+    
+    #Labels
+        #Starting number
+
+    Startingnum = tk.Label(root, text=("Starting Number"), font=("Arial", startnumsize), bg=labelback)
+    Startingnum.place(x=startnumx, y=startnumy)
+
+        #Number of Terms
+
+    Numofterms = tk.Label(root, text=("Number of Terms"), font=("Arial(", numOftermsize), bg=labelback)
+    Numofterms.place(x=numOFtermx, y=numOFtermy)
+    
+        #Progression Number
+    Progressionnum =tk.Label(root, text=("Increment"), font=("Arial(", progressionnumsize), bg=labelback)
+    Progressionnum.place(x=progressionnumx, y=progressionnumy)
+    #TextBOx
+        #Text box
+    StartingnumTxt = tk.Entry(root)
+    StartingnumTxt.place(x=startnumtx, y=startnumty)
+
+
+    root.mainloop()
+
+
+
+
+
+
+
+
+calulator()
