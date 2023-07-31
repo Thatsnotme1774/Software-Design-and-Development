@@ -4,6 +4,11 @@ import customtkinter as ctk
 
 root = tk.Tk()
 
+global ans
+#creating answer label beforehand so that the add/substract/multiplication/division function can delete it.
+ans = tk.Label(root, text="NO OUTPUT YET", font=("aerial, 15"))
+ans.place(x=130, y=110)
+
 #variables
 
 geo = "300x300"
@@ -19,12 +24,19 @@ startnumty = 5
 numOftermsize = 11
 numOFtermx = 3
 numOFtermy = 30
+numofsumtx = 130
+numofsumty = 30
 progressionnumsize = 16
 progressionnumx = 3
 progressionnumy = 58
-
+progressionnumtx=130
+progressionnumty =70
 
 #Fucntions
+def AP():
+    pass
+
+
 
 def destroy():
     root.destroy()
@@ -73,9 +85,21 @@ def calulator():
     StartingnumTxt = tk.Entry(root)
     StartingnumTxt.place(x=startnumtx, y=startnumty)
 
+    NumoftermsTxt = tk.Entry(root)
+    NumoftermsTxt.place(x=numofsumtx, y=numofsumty)
 
+
+    Progressionnumtxt = tk.Entry(root)
+    Progressionnumtxt.place(x=progressionnumtx, y=progressionnumty)
+
+
+    #Radiobuttons
+    var= IntVar()
+    AP = tk.Tk(root, text="Arithmetic Progression", variable=var,value=1)
+    AP.place(x=200, y=200)
     root.mainloop()
 
+    
 
 
 
