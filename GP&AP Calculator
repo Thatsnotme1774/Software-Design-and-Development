@@ -4,17 +4,13 @@ import customtkinter as ctk
 
 root = tk.Tk()
 
-global ans
-#creating answer label beforehand so that the add/substract/multiplication/division function can delete it.
-ans = tk.Label(root, text="NO OUTPUT YET", font=("aerial, 15"))
-ans.place(x=130, y=110)
 
 #variables
 
 geo = "300x300"
 canvaswidth = 300
 canvasheight = 300
-canvascolor ="white"
+canvascolor ="black"
 labelback = "white"
 startnumsize = 12
 startnumx = 3
@@ -31,12 +27,31 @@ progressionnumx = 3
 progressionnumy = 58
 progressionnumtx=130
 progressionnumty =70
+APy = 100
+APx= 5
+APsize = 8
+GPy = 100
+GPx = 150
+GPsize = 8
+
+
 
 #Fucntions
-def AP():
-    pass
-
-
+def Arithmetic():
+    global final
+    final = 0
+    global ans
+    ans.place_forget()
+    tempnum = 1
+    global APlist
+    APlist = []
+    first = StartingnumTxt.get()
+    prog = Progressionnumtxt.get()
+    while tempnum <= int(NumoftermsTxt.get()):
+        final = first + (tempnum - 1)*prog
+        tempnum =+ 1
+        APlist.insert(int(final))
+    print(APlist)
 
 def destroy():
     root.destroy()
@@ -47,10 +62,17 @@ def switch2():
 def calulator():
     root.title("AP and GP calculator")
     root.geometry(geo)
+  
+
 
     #Canvas
     Background = tk.Canvas(root, width=canvaswidth, height=canvasheight, bg=canvascolor)
     Background.pack()
+
+    global ans
+    #creating answer label beforehand so that the add/substract/multiplication/division function can delete it.
+    ans = tk.Label(root, text="NO OUTPUT YET", font=("aerial, 15"), width= 40, height=8)
+    ans.place(x=1, y=130)
 
 
     #Menu
@@ -82,21 +104,29 @@ def calulator():
     Progressionnum.place(x=progressionnumx, y=progressionnumy)
     #TextBOx
         #Text box
+
+    global StartingnumTxt
     StartingnumTxt = tk.Entry(root)
     StartingnumTxt.place(x=startnumtx, y=startnumty)
 
+    global NumoftermsTxt
     NumoftermsTxt = tk.Entry(root)
     NumoftermsTxt.place(x=numofsumtx, y=numofsumty)
 
-
+    global Progressionnumtxt
     Progressionnumtxt = tk.Entry(root)
     Progressionnumtxt.place(x=progressionnumtx, y=progressionnumty)
 
 
     #Radiobuttons
-    var= IntVar()
-    AP = tk.Tk(root, text="Arithmetic Progression", variable=var,value=1)
-    AP.place(x=200, y=200)
+    
+    AP = tk.Radiobutton(root, text="Arithmetic Progression", command=Arithmetic, value=1, font=("Arial", APsize))
+    AP.place(x=APx, y=APy)
+    GP = tk.Radiobutton(root, text="Geometric Progression", command=Arithmetic, value=2, font=("Arial", GPsize))
+    GP.place(x=GPx, y=GPy)
+    
+    
+    
     root.mainloop()
 
     
