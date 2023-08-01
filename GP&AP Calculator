@@ -1,79 +1,109 @@
 import tkinter as tk
-import customtkinter as ctk
-#the main application window
 
+
+# Setting up tkinter to be used as a GUI. Root is the name of the parent where everything will go to.
 root = tk.Tk()
 
 
-#variables
+#Variables
 
-geo = "300x300"
-canvaswidth = 300
+    #Canvas and Background Varaibles 
+geo = "500x300"
+canvaswidth = 500
 canvasheight = 300
-canvascolor ="black"
-labelback = "white"
-startnumsize = 12
-startnumx = 3
-startnumy = 1
-startnumtx = 130
-startnumty = 5
-numOftermsize = 11
-numOFtermx = 3
-numOFtermy = 30
-numofsumtx = 130
-numofsumty = 30
-progressionnumsize = 16
-progressionnumx = 3
-progressionnumy = 58
-progressionnumtx=130
-progressionnumty =70
-APy = 100
-APx= 5
-APsize = 8
-GPy = 100
-GPx = 150
-GPsize = 8
+canvascolor ="#f9f9f9" #light colour used for canvaas
+
+    #Label settings
+labelback = "#333333" #color for Label background
+labeltextcol = "White" #text color used for labels
+labelfont = "Arial" #font for label
+
+
+    #Starting number settings for AP and GP
+startnumsize = 14
+startnumx = 20
+startnumy = 20
+startnumtx = 180
+startnumty = 20
+
+    #Number of terms settings for AP and GP
+numOftermsize = 14
+numOFtermx = 20
+numOFtermy = 70
+numofsumtx = 180
+numofsumty = 70
+
+    #Progression number settings for AP and GP
+progressionnumsize = 14
+progressionnumx = 20
+progressionnumy = 120
+progressionnumtx=180
+progressionnumty =120
+
+    #AP radio button settings
+APy = 180
+APx= 10
+APsize = 14
+
+    #GP radio button settings
+GPy = 180
+GPx = 240
+GPsize = 14
 
 
 
 #Fucntions
 def Arithmetic():
-    global final
     final = 0
     global ans
     ans.place_forget()
     tempnum = 1
-    global APlist
-    APlist = []
-    first = StartingnumTxt.get()
-    prog = Progressionnumtxt.get()
+    list = []
+    first = int(StartingnumTxt.get())
+    prog = int(Progressionnumtxt.get())
     while tempnum <= int(NumoftermsTxt.get()):
         final = first + (tempnum - 1)*prog
-        tempnum =+ 1
-        APlist.insert(int(final))
-    print(APlist)
+        tempnum += 1
+        list.append(final)
+    ans.config(text=(list))
+    ans.place(x=10, y=210, width=380, height=80)
+
+def Geometric():
+    final = 0
+    global ans
+    ans.place_forget()
+    tempnum = 1
+    list = []
+    first = int(StartingnumTxt.get())
+    prog = int(Progressionnumtxt.get())
+    while tempnum <= int(NumoftermsTxt.get()):
+        final = first *(prog**(tempnum-1))
+        tempnum += 1
+        list.append(final)
+    ans.config(text=(list))
+    ans.place(x=10, y=210, width=380, height=80)
+
+
 
 def destroy():
     root.destroy()
+
+
 def switch():
     pass
+
+
 def switch2():
     pass
+
+
 def calulator():
     root.title("AP and GP calculator")
     root.geometry(geo)
-  
 
-
-    #Canvas
-    Background = tk.Canvas(root, width=canvaswidth, height=canvasheight, bg=canvascolor)
-    Background.pack()
-
-    global ans
-    #creating answer label beforehand so that the add/substract/multiplication/division function can delete it.
-    ans = tk.Label(root, text="NO OUTPUT YET", font=("aerial, 15"), width= 40, height=8)
-    ans.place(x=1, y=130)
-
+    #Setting up the frame
+    frame = tk.Frame(root, bg=canvascolor) #was going to use canvas but frame seemed better
+    frame.pack(fill=tk.BOTH, expand=True) #fills horizontal and vertical and also expands it
 
     #Menu
     menubar = tk.Menu(root)
@@ -88,44 +118,51 @@ def calulator():
     file_menu.add_command(label='Switch Theme Dark', command=switch2)
     file_menu.add_command(label='Exit', command=destroy)
     
+    
     #Labels
         #Starting number
 
-    Startingnum = tk.Label(root, text=("Starting Number"), font=("Arial", startnumsize), bg=labelback)
+    Startingnum = tk.Label(frame, text=("Starting Number"), font=(labelfont, startnumsize), bg=labelback, fg=labeltextcol)
     Startingnum.place(x=startnumx, y=startnumy)
 
         #Number of Terms
 
-    Numofterms = tk.Label(root, text=("Number of Terms"), font=("Arial(", numOftermsize), bg=labelback)
+    Numofterms = tk.Label(frame, text=("Number of Terms"), font=(labelfont, numOftermsize), bg=labelback, fg=labeltextcol)
     Numofterms.place(x=numOFtermx, y=numOFtermy)
     
         #Progression Number
-    Progressionnum =tk.Label(root, text=("Increment"), font=("Arial(", progressionnumsize), bg=labelback)
+    Progressionnum =tk.Label(frame, text=("Increment"), font=(labelfont, progressionnumsize), bg=labelback, fg=labeltextcol)
     Progressionnum.place(x=progressionnumx, y=progressionnumy)
+
     #TextBOx
         #Text box
 
     global StartingnumTxt
-    StartingnumTxt = tk.Entry(root)
-    StartingnumTxt.place(x=startnumtx, y=startnumty)
+    StartingnumTxt = tk.Entry(frame, font=(labelfont, startnumsize), bg=labeltextcol)
+    StartingnumTxt.place(x=startnumtx, y=startnumty, width=200)
 
     global NumoftermsTxt
-    NumoftermsTxt = tk.Entry(root)
-    NumoftermsTxt.place(x=numofsumtx, y=numofsumty)
+    NumoftermsTxt = tk.Entry(frame, font=(labelfont, numOftermsize), bg=labeltextcol)
+    NumoftermsTxt.place(x=numofsumtx, y=numofsumty, width=300)
 
     global Progressionnumtxt
-    Progressionnumtxt = tk.Entry(root)
-    Progressionnumtxt.place(x=progressionnumtx, y=progressionnumty)
+    Progressionnumtxt = tk.Entry(frame, font=(labelfont, progressionnumsize), bg=labeltextcol)
+    Progressionnumtxt.place(x=progressionnumtx, y=progressionnumty, width=200)
 
 
     #Radiobuttons
     
-    AP = tk.Radiobutton(root, text="Arithmetic Progression", command=Arithmetic, value=1, font=("Arial", APsize))
+    AP = tk.Radiobutton(frame, text="Arithmetic Progression", command=Arithmetic, value=1, font=(labelfont, APsize), bg=canvascolor)
     AP.place(x=APx, y=APy)
-    GP = tk.Radiobutton(root, text="Geometric Progression", command=Arithmetic, value=2, font=("Arial", GPsize))
+    GP = tk.Radiobutton(frame, text="Geometric Progression", command=Geometric, value=2, font=(labelfont, GPsize), bg=canvascolor)
     GP.place(x=GPx, y=GPy)
     
-    
+
+    #output 
+    global ans
+    ans = tk.Label(root, text="NO OUTPUT YET", font=("aerial, 15"), width= 40, height=8)
+    ans.place(x=10, y=210, width= 380, height = 80)
+
     
     root.mainloop()
 
