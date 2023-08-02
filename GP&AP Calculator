@@ -1,5 +1,7 @@
 import tkinter as tk
-
+import googletrans
+import textblob
+from tkinter import ttk, messagebox
 # Setting up tkinter to be used as a GUI. Root is the name of the parent where everything will go to.
 root = tk.Tk()
 
@@ -7,10 +9,17 @@ root = tk.Tk()
 #Variables
 
     #Canvas and Background Varaibles 
-geo = "500x300"
+geo = "500x300" 
 canvaswidth = 500
 canvasheight = 300
 canvascolor ="#f9f9f9" #light colour used for canvaas
+
+    #Label
+startnum = "Starting Number"
+
+
+
+
 
     #Label settings
 labelback = "#333333" #color for Label background
@@ -39,6 +48,16 @@ progressionnumy = 120
 progressionnumtx=180
 progressionnumty =120
 
+    #Language combo box
+boxwid = 50
+boxx=10 
+boxy=160
+transx=350  #for translation buttons
+transy=140 
+
+
+
+
     #AP radio button settings
 APy = 180
 APx= 10
@@ -60,10 +79,34 @@ outhei = 80
 
 
 #Fucntions
+
+def translate():
+    global startnum
+    try:
+        for key, value in languages.items():
+            if value == Languageset.get():
+                to_language_key = key
+
+        # Convert the label text to textblob
+        words = textblob.TextBlob(startnum)
+
+        # Translation
+        translated_words = words.translate(to=to_language_key)
+
+        # Update the label text with the translated text
+        Startingnum.config(text=translated_words)
+
+    except Exception as e:
+        messagebox.showerror("translate", e)
+   
+
+def clear():
+    pass
+
 def Arithmetic():
     final = 0
-    global ans
-    ans.forget
+    ans.config(state=tk.NORMAL)  # Resets the state of text widget
+    ans.delete(1.0, tk.END)  # Clear the previous output
     tempnum = 1
     list = []
     first = int(StartingnumTxt.get())
@@ -78,8 +121,8 @@ def Arithmetic():
 
 def Geometric():
     final = 0
-    global ans
-    ans.forget
+    ans.config(state=tk.NORMAL)  # Resets the state of text widget
+    ans.delete(1.0, tk.END)  # Clear the previous output
     tempnum = 1
     list = []
     first = int(StartingnumTxt.get())
@@ -101,6 +144,14 @@ def calculator():
     root.title("AP and GP calculator")
     root.geometry(geo)
 
+    global languages
+    languages = googletrans.LANGUAGES
+    language_list =list(languages.values())
+
+
+
+
+
     global ans
     #Setting up the frame
     frame = tk.Frame(root, bg=canvascolor) #was going to use canvas but frame seemed better
@@ -119,8 +170,8 @@ def calculator():
     
     #Labels
         #Starting number
-
-    Startingnum = tk.Label(frame, text=("Starting Number"), font=(labelfont, startnumsize), bg=labelback, fg=labeltextcol)
+    global Startingnum
+    Startingnum = tk.Label(frame, text=(startnum), font=(labelfont, startnumsize), bg=labelback, fg=labeltextcol)
     Startingnum.place(x=startnumx, y=startnumy)
 
         #Number of Terms
@@ -132,8 +183,7 @@ def calculator():
     Progressionnum =tk.Label(frame, text=("Increment"), font=(labelfont, progressionnumsize), bg=labelback, fg=labeltextcol)
     Progressionnum.place(x=progressionnumx, y=progressionnumy)
 
-    #TextBOx
-        #Text box
+    #TextBOX
 
     global StartingnumTxt
     StartingnumTxt = tk.Entry(frame, font=(labelfont, startnumsize), bg=labeltextcol)
@@ -154,9 +204,18 @@ def calculator():
     AP.place(x=APx, y=APy)
     GP = tk.Radiobutton(frame, text="Geometric Progression", command=Geometric, value=2, font=(labelfont, GPsize), bg=canvascolor)
     GP.place(x=GPx, y=GPy)
-    
+    trans = tk.Radiobutton(frame, text="Translate", command=translate, value=3, font=(labelfont, 15), bg=canvascolor)
+    trans.place(x=transx,y=transy)
+
+    #Combo Box
+    global Languageset
+    Languageset = ttk.Combobox(frame, width=boxwid, value=language_list)
+    Languageset.current(21)
+    Languageset.place(x=boxx,y=boxy)
+
 
     #output 
+
         #Frame for the output
     output = tk.Frame(frame, bg=canvascolor)
     output.place(x=outx, y=outy, width=outwid, height=outhei)
@@ -182,5 +241,15 @@ def calculator():
 
 
 
-if __name__ == "__main__": #checks if it is the main program
+if __name__ == "__main__":
+    # Create a StringVar for the label text
+    startnum = tk.StringVar()
+    startnum.set("Starting Number")
+
+    # Call your calculator function
     calculator()
+
+
+
+
+
