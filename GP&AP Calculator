@@ -1,6 +1,5 @@
 import tkinter as tk
 
-
 # Setting up tkinter to be used as a GUI. Root is the name of the parent where everything will go to.
 root = tk.Tk()
 
@@ -50,13 +49,21 @@ GPy = 180
 GPx = 240
 GPsize = 14
 
+    #output
+outx = 10
+outy = 210
+outwid = 380
+outhei = 80
+
+
+
 
 
 #Fucntions
 def Arithmetic():
     final = 0
     global ans
-    ans.place_forget()
+    ans.forget
     tempnum = 1
     list = []
     first = int(StartingnumTxt.get())
@@ -64,14 +71,15 @@ def Arithmetic():
     while tempnum <= int(NumoftermsTxt.get()):
         final = first + (tempnum - 1)*prog
         tempnum += 1
-        list.append(final)
-    ans.config(text=(list))
-    ans.place(x=10, y=210, width=380, height=80)
+        list.append(str(final))
+    ans.insert(tk.END, " ".join(list)) #Adds the number to the end
+    ans.config(state=tk.DISABLED)  # Make the Text widget read-only
+
 
 def Geometric():
     final = 0
     global ans
-    ans.place_forget()
+    ans.forget
     tempnum = 1
     list = []
     first = int(StartingnumTxt.get())
@@ -79,9 +87,9 @@ def Geometric():
     while tempnum <= int(NumoftermsTxt.get()):
         final = first *(prog**(tempnum-1))
         tempnum += 1
-        list.append(final)
-    ans.config(text=(list))
-    ans.place(x=10, y=210, width=380, height=80)
+        list.append(str(final))
+    ans.insert(tk.END, " ".join(list)) #adds the number to the end
+    ans.config(state=tk.DISABLED)  # Make the Text widget read-only
 
 
 
@@ -89,18 +97,11 @@ def destroy():
     root.destroy()
 
 
-def switch():
-    pass
-
-
-def switch2():
-    pass
-
-
-def calulator():
+def calculator():
     root.title("AP and GP calculator")
     root.geometry(geo)
 
+    global ans
     #Setting up the frame
     frame = tk.Frame(root, bg=canvascolor) #was going to use canvas but frame seemed better
     frame.pack(fill=tk.BOTH, expand=True) #fills horizontal and vertical and also expands it
@@ -113,9 +114,6 @@ def calulator():
     file_menu = tk.Menu(menubar, tearoff=0)
     menubar.add_cascade(label='File', menu=file_menu)
 
-        #Adding 
-    file_menu.add_command(label='Switch Theme Yellow', command=switch)
-    file_menu.add_command(label='Switch Theme Dark', command=switch2)
     file_menu.add_command(label='Exit', command=destroy)
     
     
@@ -159,10 +157,20 @@ def calulator():
     
 
     #output 
+        #Frame for the output
+    output = tk.Frame(frame, bg=canvascolor)
+    output.place(x=outx, y=outy, width=outwid, height=outhei)
+   
+        #Answer label placed in the output frame
     global ans
-    ans = tk.Label(root, text="NO OUTPUT YET", font=("aerial, 15"), width= 40, height=8)
-    ans.place(x=10, y=210, width= 380, height = 80)
+    ans = tk.Text(output, font=(labelfont, 15), wrap=tk.NONE)#wrap basically choses what to do when the text goes over the box, in this case it is set to none as we will be using a scroll bar.
+    ans.pack(side=tk.LEFT, fill=tk.BOTH, expand=True) #side command moves it all the way to the left of the output frame, fill makes sure that both horizontal and vertical axises are occupied and expand makes it useable when expanded
 
+        #Scroll bar used in the answer
+    scroll = tk.Scrollbar(output, command=ans.yview)#the scrollbar is set so that it will be vertical
+    scroll.pack(side=tk.RIGHT, fill=tk.Y)#goes to the right side of the frame and fills the y axis
+ 
+    ans.config(yscrollcommand=scroll.set, wrap=tk.WORD) #sets up the scrollbar and wraps the text with a word boundary
     
     root.mainloop()
 
@@ -174,4 +182,5 @@ def calulator():
 
 
 
-calulator()
+if __name__ == "__main__": #checks if it is the main program
+    calculator()
