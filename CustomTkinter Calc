@@ -24,7 +24,7 @@ progressionnumx = 3
 progressionnumy = 58
 
 
-#Fucntions
+#Functions
 
 ctk.set_default_color_theme("blue")
 root.configure(bg='red')
