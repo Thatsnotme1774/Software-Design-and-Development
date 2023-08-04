@@ -34,7 +34,7 @@ def switch():
     pass
 def switch2():
     pass
-def calulator():
+def calculator():
     root.title("AP and GP calculator")
     root.geometry(geo)
 
