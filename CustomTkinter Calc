@@ -24,7 +24,7 @@ progressionnumx = 3
 progressionnumy = 58
 
 
-#Fucntions
+#Functions
 
 ctk.set_default_color_theme("blue")
 root.configure(bg='red')
@@ -34,7 +34,7 @@ def switch():
     pass
 def switch2():
     pass
-def calulator():
+def calculator():
     root.title("AP and GP calculator")
     root.geometry(geo)
 
@@ -78,10 +78,6 @@ def calulator():
 
     root.mainloop()
 
-import tkinter as tk
-'en': {'Arithmetic Sum': 'Arithmetic Sum', 'Geometric Sum': 'Geometric Sum', 'Calculate': 'Calculate'},
-'fr': {'Arithmetic Sum': 'Somme arithmétique', 'Geometric Sum': 'Somme géométrique', 'Calculate': 'Calculer'},
-'es': {'Arithmetic Sum': 'Suma aritmética', 'Geometric Sum': 'Suma geométrica', 'Calculate': 'Calcular'},
 
 
 
