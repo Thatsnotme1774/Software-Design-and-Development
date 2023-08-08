@@ -81,24 +81,26 @@ outhei = 80
 #Fucntions
 
 def translate():
-    global startnum
+    #delete orginal 
+    Startingnum.delete(1.0, tk.END)
     try:
         for key, value in languages.items():
-            if value == Languageset.get():
+            if (value == Languageset.get()):
                 to_language_key = key
 
-        # Convert the label text to textblob
+
+        #converts text to textblob
         words = textblob.TextBlob(startnum)
 
-        # Translation
-        translated_words = words.translate(to=to_language_key)
+        #translation
+        words = words.translate(from_lang=startnum, to=to_language_key)
 
-        # Update the label text with the translated text
-        Startingnum.config(text=translated_words)
+        #output
+        startnum = words
 
     except Exception as e:
         messagebox.showerror("translate", e)
-   
+        
 
 def clear():
     pass
@@ -241,15 +243,5 @@ def calculator():
 
 
 
-if __name__ == "__main__":
-    # Create a StringVar for the label text
-    startnum = tk.StringVar()
-    startnum.set("Starting Number")
-
-    # Call your calculator function
+if __name__ == "__main__": #checks if it is the main program
     calculator()
-
-
-
-
-
