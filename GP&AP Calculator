@@ -1,5 +1,5 @@
 import tkinter as tk
-import googletrans
+from googletrans import Translator
 import textblob
 from tkinter import ttk, messagebox
 # Setting up tkinter to be used as a GUI. Root is the name of the parent where everything will go to.
@@ -81,25 +81,25 @@ outhei = 80
 #Fucntions
 
 def translate():
-    #delete orginal 
-    Startingnum.delete(1.0, tk.END)
     try:
-        for key, value in languages.items():
-            if (value == Languageset.get()):
-                to_language_key = key
-
-
-        #converts text to textblob
-        words = textblob.TextBlob(startnum)
-
-        #translation
-        words = words.translate(from_lang=startnum, to=to_language_key)
-
-        #output
-        startnum = words
-
+        selected_language = Languageset.get()  # Get the selected language from the combo box
+        
+        # Initialize the translator
+        translator = Translator()
+        
+        # Translate the "Starting Number" text into the selected language
+        translated_text = translator.translate(startnum, src='en', dest=selected_language).text
+        
+        # Delete original content from the Startingnum entry field
+        Startingnum.config(state=tk.NORMAL)
+        Startingnum.delete(0, tk.END)
+        
+        # Display the translated text in the Startingnum entry field
+        Startingnum.insert(0, translated_text)
+        Startingnum.config(state=tk.DISABLED)
     except Exception as e:
-        messagebox.showerror("translate", e)
+        messagebox.showerror("Translate Error", str(e))
+
         
 
 def clear():
@@ -147,7 +147,7 @@ def calculator():
     root.geometry(geo)
 
     global languages
-    languages = googletrans.LANGUAGES
+    languages = Translator.LANGUAGES
     language_list =list(languages.values())
 
 
@@ -173,7 +173,9 @@ def calculator():
     #Labels
         #Starting number
     global Startingnum
-    Startingnum = tk.Label(frame, text=(startnum), font=(labelfont, startnumsize), bg=labelback, fg=labeltextcol)
+    Startingnum = tk.Entry(frame, text=(startnum), font=(labelfont, startnumsize), bg=labelback, fg=labeltextcol)
+    Startingnum.insert(0, startnum)
+    Startingnum.config(state=tk.DISABLED)
     Startingnum.place(x=startnumx, y=startnumy)
 
         #Number of Terms
