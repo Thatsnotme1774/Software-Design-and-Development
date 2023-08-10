@@ -1,6 +1,7 @@
 import tkinter as tk
-import googletrans as Translator
-import textblob
+from tkinter import*
+import googletrans
+from textblob import*
 from tkinter import ttk, messagebox
 # Setting up tkinter to be used as a GUI. Root is the name of the parent where everything will go to.
 root = tk.Tk()
@@ -8,9 +9,10 @@ root = tk.Tk()
 #language list and grabbing langauges
 
 global language_list
-languages = Translator.LANGUAGES
-print(languages)
+languages= googletrans.LANGUAGES
 language_list = list(languages.values())
+
+
 #Variables
 
     #Canvas and Background Varaibles 
@@ -20,8 +22,10 @@ canvasheight = 300
 canvascolor ="#f9f9f9" #light colour used for canvaas
 
     #Label
+global startnum, prognum, termnum #making them accessible globally (will be useful for translation)
 startnum = "Starting Number"
-
+prognum = "Increment"
+termnum = "Number of Terms"
 
 
 
@@ -85,25 +89,45 @@ outhei = 80
 
 #Fucntions
 
+
+
+
 def translate():
+    global startnum, termnum, prognum
+    
     try:
-        selected_language = Languageset.get()  # Get the selected language from the combo box
+       #getting languges 
+       #From languge 
+        for key, value in languages.items():
+            if (value == original.get()):
+                from_languge_key =key
+        #TO langauge 
+        for key, value in languages.items():
+            if (value == translated.get()):
+                to_languge_key =key  
         
-        # Initialize the translator
-        translator = Translator()
-        
-        # Translate the "Starting Number" text into the selected language
-        translated_text = translator.translate(startnum, src='en', dest=selected_language).text
-        
-        # Delete original content from the Startingnum entry field
-        Startingnum.config(state=tk.NORMAL)
-        Startingnum.delete(0, tk.END)
-        
-        # Display the translated text in the Startingnum entry field
-        Startingnum.insert(0, translated_text)
-        Startingnum.config(state=tk.DISABLED)
+        #translating starting number
+        words1 = TextBlob(startnum) #turn og text into textblob
+        words1 = words1.translate(from_lang=from_languge_key , to=to_languge_key)
+        startnum_translated = words1
+        Startingnum.config(text=startnum_translated)
+
+        #translating progression number
+        words2 = TextBlob(prognum) #turn og text into textblob
+        words2 = words2.translate(from_lang=from_languge_key , to=to_languge_key)
+        prognum = words2
+        Progressionnum.config(text=prognum)
+
+        #translating number of terms
+        words3 = TextBlob(termnum) #turn og text into textblob
+        words3 = words3.translate(from_lang=from_languge_key , to=to_languge_key)
+        termnum = words3
+        Numofterms.config(text=termnum)
+
+
+
     except Exception as e:
-        messagebox.showerror("Translate Error", str(e))
+        messagebox.showerror("Translate Error", e)
 
         
 
@@ -180,15 +204,16 @@ def calculator():
     Startingnum.place(x=startnumx, y=startnumy)
 
         #Number of Terms
-
-    Numofterms = tk.Label(frame, text=("Number of Terms"), font=(labelfont, numOftermsize), bg=labelback, fg=labeltextcol)
+    global Numofterms
+    Numofterms = tk.Label(frame, text=(termnum), font=(labelfont, numOftermsize), bg=labelback, fg=labeltextcol)
     Numofterms.place(x=numOFtermx, y=numOFtermy)
     
         #Progression Number
-    Progressionnum =tk.Label(frame, text=("Increment"), font=(labelfont, progressionnumsize), bg=labelback, fg=labeltextcol)
+    global Progressionnum
+    Progressionnum =tk.Label(frame, text=(prognum), font=(labelfont, progressionnumsize), bg=labelback, fg=labeltextcol)
     Progressionnum.place(x=progressionnumx, y=progressionnumy)
 
-    #TextBOX
+    #Entries 
 
     global StartingnumTxt
     StartingnumTxt = tk.Entry(frame, font=(labelfont, startnumsize), bg=labeltextcol)
@@ -212,12 +237,21 @@ def calculator():
     trans = tk.Radiobutton(frame, text="Translate", command=translate, value=3, font=(labelfont, 15), bg=canvascolor)
     trans.place(x=transx,y=transy)
 
-    #Combo Box
-    global Languageset
-    Languageset = ttk.Combobox(frame, width=boxwid, value=language_list)
-    Languageset.current(21)
-    Languageset.place(x=boxx,y=boxy)
+    #Textbox
+    original_text = Text(frame)
+    translated_text = Text(frame)
 
+
+    #Combo Box
+    global original
+    
+    original = ttk.Combobox(frame, width=boxwid, value=language_list)
+    original.current(21)
+    
+    global translated
+    translated = ttk.Combobox(frame, width=boxwid, value=language_list)
+    translated.current(26)
+    translated.place(x=boxx,y=boxy)
 
     #output 
 
