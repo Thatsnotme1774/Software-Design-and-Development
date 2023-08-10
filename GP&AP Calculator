@@ -1,11 +1,16 @@
 import tkinter as tk
-from googletrans import Translator
+import googletrans as Translator
 import textblob
 from tkinter import ttk, messagebox
 # Setting up tkinter to be used as a GUI. Root is the name of the parent where everything will go to.
 root = tk.Tk()
 
+#language list and grabbing langauges
 
+global language_list
+languages = Translator.LANGUAGES
+print(languages)
+language_list = list(languages.values())
 #Variables
 
     #Canvas and Background Varaibles 
@@ -146,9 +151,7 @@ def calculator():
     root.title("AP and GP calculator")
     root.geometry(geo)
 
-    global languages
-    languages = Translator.LANGUAGES
-    language_list =list(languages.values())
+
 
 
 
@@ -173,9 +176,7 @@ def calculator():
     #Labels
         #Starting number
     global Startingnum
-    Startingnum = tk.Entry(frame, text=(startnum), font=(labelfont, startnumsize), bg=labelback, fg=labeltextcol)
-    Startingnum.insert(0, startnum)
-    Startingnum.config(state=tk.DISABLED)
+    Startingnum = tk.Label(frame, text=(startnum), font=(labelfont, startnumsize), bg=labelback, fg=labeltextcol)
     Startingnum.place(x=startnumx, y=startnumy)
 
         #Number of Terms
