@@ -22,11 +22,12 @@ canvasheight = 300
 canvascolor ="#f9f9f9" #light colour used for canvaas
 
     #Label
-global startnum, prognum, termnum #making them accessible globally (will be useful for translation)
+global startnum, prognum, termnum, APnum, GPnum #making them accessible globally (will be useful for translation)
 startnum = "Starting Number"
 prognum = "Increment"
 termnum = "Number of Terms"
-
+APnum = "Arithmetic Progression"
+GPnum = "Geometric Progression"
 
 
 
@@ -93,10 +94,17 @@ outhei = 80
 
 
 def translate():
-    global startnum, termnum, prognum
-    
+    global startnum, termnum, prognum, APnum, GPnum
     try:
-       #getting languges 
+       if original.get() == translated.get(): #just a quick fix that retranslates it back to english
+        Startingnum.config(text=startnum)
+        Progressionnum.config(text=prognum)
+        Numofterms.config(text=termnum)
+        AP.config(text=APnum)
+        GP.config(text=GPnum)
+
+       else:                                 #for every other language, this works
+        #getting languges 
        #From languge 
         for key, value in languages.items():
             if (value == original.get()):
@@ -109,20 +117,29 @@ def translate():
         #translating starting number
         words1 = TextBlob(startnum) #turn og text into textblob
         words1 = words1.translate(from_lang=from_languge_key , to=to_languge_key)
-        startnum_translated = words1
-        Startingnum.config(text=startnum_translated)
+        
+        Startingnum.config(text=words1)
 
         #translating progression number
         words2 = TextBlob(prognum) #turn og text into textblob
         words2 = words2.translate(from_lang=from_languge_key , to=to_languge_key)
-        prognum = words2
-        Progressionnum.config(text=prognum)
+        
+        Progressionnum.config(text=words2)
 
         #translating number of terms
         words3 = TextBlob(termnum) #turn og text into textblob
         words3 = words3.translate(from_lang=from_languge_key , to=to_languge_key)
-        termnum = words3
-        Numofterms.config(text=termnum)
+        Numofterms.config(text=words3)
+
+        #translating the AP button
+        words4 = TextBlob(APnum) #turn og text into textblob
+        words4 = words4.translate(from_lang=from_languge_key , to=to_languge_key)
+        AP.config(text=words4)
+
+        #translating the GP button
+        words5 = TextBlob(GPnum) #turn og text into textblob
+        words5 = words5.translate(from_lang=from_languge_key , to=to_languge_key)
+        GP.config(text=words5)
 
 
 
@@ -229,7 +246,7 @@ def calculator():
 
 
     #Radiobuttons
-    
+    global AP, GP
     AP = tk.Radiobutton(frame, text="Arithmetic Progression", command=Arithmetic, value=1, font=(labelfont, APsize), bg=canvascolor)
     AP.place(x=APx, y=APy)
     GP = tk.Radiobutton(frame, text="Geometric Progression", command=Geometric, value=2, font=(labelfont, GPsize), bg=canvascolor)
