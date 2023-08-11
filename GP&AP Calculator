@@ -22,13 +22,14 @@ canvasheight = 300
 canvascolor ="#f9f9f9" #light colour used for canvaas
 
     #Label
-global startnum, prognum, termnum, APnum, GPnum #making them accessible globally (will be useful for translation)
+global startnum, prognum, termnum, APnum, GPnum, transmsg, errormsg #making them accessible globally (will be useful for translation)
 startnum = "Starting Number"
 prognum = "Increment"
 termnum = "Number of Terms"
 APnum = "Arithmetic Progression"
 GPnum = "Geometric Progression"
-
+transmsg = "Translate"
+Errormsg =  "ERROR! TYPE INTEGERS IN ALL BOXES"
 
 
     #Label settings
@@ -94,7 +95,7 @@ outhei = 80
 
 
 def translate():
-    global startnum, termnum, prognum, APnum, GPnum
+    global startnum, termnum, prognum, APnum, GPnum, transmsg, Errormsg
     try:
        if original.get() == translated.get(): #just a quick fix that retranslates it back to english
         Startingnum.config(text=startnum)
@@ -102,7 +103,14 @@ def translate():
         Numofterms.config(text=termnum)
         AP.config(text=APnum)
         GP.config(text=GPnum)
-
+        trans.config(text=transmsg)
+        if ans.get("1.0", "end-1c") == Errormsg:
+            ans.config(state=NORMAL)
+            ans.delete("1.0", tk.END)  # Clear the answer
+            ans.insert(tk.END, Errormsg)
+            ans.config(state=DISABLED)
+        else:
+            pass
        else:                                 #for every other language, this works
         #getting languges 
        #From languge 
@@ -152,35 +160,50 @@ def clear():
     pass
 
 def Arithmetic():
-    final = 0
     ans.config(state=tk.NORMAL)  # Resets the state of text widget
     ans.delete(1.0, tk.END)  # Clear the previous output
-    tempnum = 1
-    list = []
-    first = int(StartingnumTxt.get())
-    prog = int(Progressionnumtxt.get())
-    while tempnum <= int(NumoftermsTxt.get()):
-        final = first + (tempnum - 1)*prog
-        tempnum += 1
-        list.append(str(final))
-    ans.insert(tk.END, " ".join(list)) #Adds the number to the end
-    ans.config(state=tk.DISABLED)  # Make the Text widget read-only
+
+
+    if not (StartingnumTxt.get().isdecimal() and Progressionnumtxt.get().isdecimal() and NumoftermsTxt.get().isdecimal()): #Checks whether the values are integers or not
+        ans.insert(tk.END, Errormsg) #IF they aren't then it gives an error
+        ans.config(state=DISABLED)
+    else:                                                          #Else does the calculation
+        final = 0
+        tempnum = 1
+        list = []
+        first = int(StartingnumTxt.get())
+        prog = int(Progressionnumtxt.get())
+        while tempnum <= int(NumoftermsTxt.get()):
+            final = first + (tempnum - 1)*prog
+            tempnum += 1
+            list.append(str(final))
+        ans.insert(tk.END, " ".join(list)) #Adds the number to the end
+        ans.config(state=tk.DISABLED)  # Make the Text widget read-only
 
 
 def Geometric():
-    final = 0
     ans.config(state=tk.NORMAL)  # Resets the state of text widget
     ans.delete(1.0, tk.END)  # Clear the previous output
-    tempnum = 1
-    list = []
-    first = int(StartingnumTxt.get())
-    prog = int(Progressionnumtxt.get())
-    while tempnum <= int(NumoftermsTxt.get()):
-        final = first *(prog**(tempnum-1))
-        tempnum += 1
-        list.append(str(final))
-    ans.insert(tk.END, " ".join(list)) #adds the number to the end
-    ans.config(state=tk.DISABLED)  # Make the Text widget read-only
+
+    if not (StartingnumTxt.get().isdecimal() and Progressionnumtxt.get().isdecimal() and NumoftermsTxt.get().isdecimal()): #Checks whether the values are integers or not
+        ans.insert(tk.END, "ERROR! TYPE INTEGERS IN ALL BOXES") #IF they aren't then it gives an error
+        ans.config(state=DISABLED)
+    else:                                                          #Else does the calculation
+
+
+
+
+        final = 0
+        tempnum = 1
+        list = []
+        first = int(StartingnumTxt.get())
+        prog = int(Progressionnumtxt.get())
+        while tempnum <= int(NumoftermsTxt.get()):
+            final = first *(prog**(tempnum-1))
+            tempnum += 1
+            list.append(str(final))
+        ans.insert(tk.END, " ".join(list)) #adds the number to the end
+        ans.config(state=tk.DISABLED)  # Make the Text widget read-only
 
 
 
@@ -246,7 +269,7 @@ def calculator():
 
 
     #Radiobuttons
-    global AP, GP
+    global AP, GP, trans
     AP = tk.Radiobutton(frame, text="Arithmetic Progression", command=Arithmetic, value=1, font=(labelfont, APsize), bg=canvascolor)
     AP.place(x=APx, y=APy)
     GP = tk.Radiobutton(frame, text="Geometric Progression", command=Geometric, value=2, font=(labelfont, GPsize), bg=canvascolor)
