@@ -1,4 +1,5 @@
 import tkinter as tk
+import time
 from tkinter import*
 import googletrans
 from textblob import*
@@ -14,7 +15,7 @@ language_list = list(languages.values())
 
 
 #Variables
-
+scale = 1
     #Canvas and Background Varaibles 
 geo = "500x300" 
 canvaswidth = 500
@@ -67,8 +68,8 @@ boxy=160
 
 
     #translator button settings
-transy =155
-transx =310
+transy =156
+transx =265
 transsize = 10
 
     #AP radio button settings
@@ -81,6 +82,12 @@ GPy = 180
 GPx = 220
 GPsize = 10
 
+#resolution slider
+resx =210
+resy = 210
+reslen =150
+reswid = 20
+
 
 
 
@@ -89,7 +96,7 @@ GPsize = 10
     #output
 outx = 10
 outy = 210
-outwid = 380
+outwid = 190
 outhei = 80
 
 
@@ -147,17 +154,110 @@ def dark_mode():
     GP.config(bg=canvascolor, fg =labeltextcol, activebackground=canvascolor, activeforeground=labeltextcol, selectcolor=select_color)
     trans.config(bg=canvascolor, fg= "white")
     ans.config(bg=labelback, fg=labeltextcol)
+resolution_window = None
+resolution_window_open = False
+def openresolutionwindow():
+    global resolution_slider, resolution_window, resvar
+    if resvar.get():
+        resolution_window = tk.Toplevel(root)  # Create a new Toplevel window
+        resolution_window.title("Resolution Settings")
+        resolution_window.geometry("300x100")  # Set the size of the window
 
-def resolution1():
-    geo="500x300"
-    pass
-def resolution2():
-    geo="800x600"
-    canvasheight = 600
-    canvaswidth =800
+        resolution_slider = tk.Scale(resolution_window, from_=0, to=5, orient=tk.HORIZONTAL, length=250, label="Resolution", width=20)
+        resolution_slider.pack(pady=20)
+        resolution_slider.bind("<Motion>", resolution_slider_change)
+        resolution_window.protocol("WM_DELETE_WINDOW", close_resolution_window)
+    else:
+        close_resolution_window()
+
+def close_resolution_window():
+    global resolution_window, resvar
+    resvar.set(False)
+    if resolution_window:
+        resolution_window.destroy()
+def toggle_resolution_bar():
+    if resolution_window_open:
+        resolution_window.destroy()
+    else:
+        openresolutionwindow()
+
+    if resolution_window_open:
+        file_menu.entryconfig("Resolution Bar", label="Resolution Bar (Open)")
+    else:
+        file_menu.entryconfig("Resolution Bar", label="Resolution Bar")
+
+
+
+def updateres(slider_value): #everytime the slider value changes, this command runs to change size of everything
+    global canvaswidth, canvasheight, geo, startnumx, startnumy, startnumtx, startnumty, numOFtermx, numOFtermy, numofsumtx, numofsumty, progressionnumx, progressionnumy, progressionnumtx, progressionnumty, APx, APy, GPx, GPy, boxx, boxy, transx, transy, outx, outy, outwid, outhei
+
+    canvaswidth = int(500 + (slider_value * 100)) #value of the slider is used for multiplication 
+    
+    # Limit the maximum height based on the screen's height so it doesnt multiply by the same factor as the width
+    maxhei = root.winfo_screenheight() - 100  # Adjust the subtraction value as needed, a
+    canvasheight = min(int(300 + (slider_value * 50)), maxhei) #adjusted value of height 
+    
+    geo = f"{canvaswidth}x{canvasheight}" #setting geometry to the new valus
     root.geometry(geo)
-    root.maxsize(width=canvaswidth, height=canvasheight)
-    root.minsize(width=canvaswidth, height=canvasheight)
+    root.maxsize(width=canvaswidth, height=canvasheight) #Setting new values
+    root.minsize(width=canvaswidth, height=canvasheight) 
+    
+    #changing values according to slider
+    startnumsize=int(10 + (slider_value*10))
+    labelsize=int(200 + (slider_value*100))
+    startnumtx=int(180+ (slider_value*70))
+    numofsumty= min(int(70 + (slider_value * 10)), maxhei)
+    progressionnumty = min(int(120 + (slider_value * 20)), maxhei)
+    boxwid = int(45+ (slider_value*10))
+    transnum=int(9 + (slider_value*1))
+    boxy = min(int(160 + (slider_value * 35)), maxhei)
+    transsize = int(10 + (slider_value*3))
+    transx = int(265+ (slider_value*110))
+    transy = min(int(156 + (slider_value * 32)), maxhei)
+    APsize = int(10 + (slider_value*4))
+    GPsize = int(10 + (slider_value*4))
+    GPx = int(220+ (slider_value*50))
+    APy =min(int(180 + (slider_value * 37)), maxhei) 
+    GPy =min(int(180 + (slider_value * 37)), maxhei)
+    outy= min(int(210 + (slider_value * 42)), maxhei)
+    outwid = int(190+ (slider_value*100))
+
+    Startingnum.config(font=(startnum, startnumsize))
+    StartingnumTxt.config(font=(startnum, startnumsize))
+    StartingnumTxt.place(x=startnumtx, width=labelsize)
+
+    Numofterms.config(font=(startnum, startnumsize))
+    Numofterms.place(y=numofsumty)
+    NumoftermsTxt.config(font=(startnum, startnumsize))
+    NumoftermsTxt.place(x=startnumtx, y= numofsumty, width=labelsize)
+
+    Progressionnum.config(font=(startnum, startnumsize))
+    Progressionnum.place(y=progressionnumty)
+    Progressionnumtxt.config(font=(startnum, startnumsize))
+    Progressionnumtxt.place(x=startnumtx,y=progressionnumty, width=labelsize)
+
+
+    
+    translated.config(width=boxwid, font=(startnum, transnum)) #meant to be called box num but same thing
+    translated.place(y=boxy)
+
+    trans.config(font=(startnum, transsize))
+    trans.place(y=transy, x=transx)
+    
+    AP.config(font=(labelfont, APsize))
+    AP.place(y=APy,x=APx)
+    GP.config(font=(labelfont, GPsize))
+    GP.place(y=GPy,x=GPx)
+    output.place(y=outy, width=outwid)
+    
+    
+
+
+
+def resolution_slider_change(event): #changes the animation so it looks like the slider moved
+    slider_value = resolution_slider.get()
+    updateres(slider_value)
+
 
 
 
@@ -296,10 +396,12 @@ def destroy():
 
 
 def calculator():
+    
     root.title("AP and GP calculator")
     root.geometry(geo)
     root.maxsize(width=canvaswidth, height=canvasheight)
     root.minsize(width=canvaswidth, height=canvasheight)
+    root.tk.call('tk', 'scaling', scale)
 
 
 
@@ -315,26 +417,22 @@ def calculator():
     #Menu
     menubar = tk.Menu(root)
     root.config(menu=menubar)
+    global file_menu 
 
         #Adding a file button
     file_menu = tk.Menu(menubar, tearoff=0) #makng a parent 
-    menubar.add_cascade(label='File', menu=file_menu) #naming the parent file
+    menubar.add_cascade(label='Options', menu=file_menu) #naming the parent file
     
         #making the themes menu a parant 
     theme_menu =tk.Menu(file_menu, tearoff=0) 
         #adding the themes menu
     file_menu.add_cascade(label='Theme', menu=theme_menu)
+    global resvar
+    resvar = tk.BooleanVar(value=False) #just to keep in track of the tick
+    file_menu.add_checkbutton(label='Resolution Bar', command=openresolutionwindow, variable=resvar)
 
 
 
-        #adding resolution
-    resolution_menu =tk.Menu(file_menu, tearoff=0)
-    file_menu.add_cascade(label='Resolution', menu=resolution_menu)
-            #adding resolutions to the resolution menu
-    resvar = IntVar(value=1)
-    resolution_menu.add_radiobutton(label='500x300', command=None, value=1, variable=resvar)
-    resolution_menu.add_radiobutton(label='700x400', command=resolution2, value=2, variable=resvar)
-    resolution_menu.add_radiobutton(label='800x500', command=None, value=3, variable=resvar)
 
 
         #exit button
@@ -353,6 +451,7 @@ def calculator():
     
     #Labels
         #Starting number
+
     global Startingnum
     Startingnum = tk.Label(frame, text=(startnum), font=(labelfont, startnumsize), bg=labelback, fg=labeltextcol)
     Startingnum.place(x=startnumx, y=startnumy)
@@ -413,10 +512,12 @@ def calculator():
     translated = ttk.Combobox(frame, width=boxwid, value=language_list)
     translated.current(26)
     translated.place(x=boxx,y=boxy)
+    translated.config(state='readonly')
 
     #output 
 
         #Frame for the output
+    global output
     output = tk.Frame(frame, bg=canvascolor)
     output.place(x=outx, y=outy, width=outwid, height=outhei)
    
@@ -431,6 +532,18 @@ def calculator():
  
     ans.config(yscrollcommand=scroll.set, wrap=tk.WORD) #sets up the scrollbar and wraps the text with a word boundary
     
+
+    #global resolution_slider
+    #resolution_slider = tk.Scale(frame, from_=0, to=5, orient=tk.HORIZONTAL, length=reslen, label="Resolution", width=reswid)
+    #resolution_slider.place(x=resx, y=resy)
+    #resolution_slider.bind("<Motion>", resolution_slider_change)  # Bind to the slider's value change event
+
+
+
+
+
+
+
     root.mainloop()
 
     
