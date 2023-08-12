@@ -4,6 +4,7 @@ from tkinter import*
 import googletrans
 from textblob import*
 from tkinter import ttk, messagebox
+import pyttsx3
 # Setting up tkinter to be used as a GUI. Root is the name of the parent where everything will go to.
 root = tk.Tk()
 
@@ -89,7 +90,10 @@ reslen =150
 reswid = 20
 
 
-
+#speak
+speaksize = 10
+speakx = 210
+speaky = 210
 
 
 
@@ -135,9 +139,9 @@ def light_mode():
     Progressionnum.config(bg=labelback, fg=labeltextcol)
     AP.config(bg=canvascolor, fg = labeltextcol, activebackground=canvascolor, activeforeground=labeltextcol, selectcolor=select_color)
     GP.config(bg=canvascolor, fg =labeltextcol, activebackground=canvascolor, activeforeground=labeltextcol, selectcolor=select_color)
-    trans.config(bg=canvascolor, fg="Black")
+    trans.config(bg=canvascolor, fg="Black", activebackground=canvascolor, activeforeground=labeltextcol)
     ans.config(bg=labelback, fg=labeltextcol)
-
+    speak.config(bg=labelback, fg=labeltextcol, activebackground=canvascolor, activeforeground=labeltextcol)
 
 def dark_mode():
     global canvascolor, labelback, labeltextcol
@@ -152,11 +156,12 @@ def dark_mode():
     Progressionnum.config(bg=labelback, fg=labeltextcol)
     AP.config(bg=canvascolor, fg=labeltextcol, activebackground=canvascolor, activeforeground= labeltextcol, selectcolor=select_color)
     GP.config(bg=canvascolor, fg =labeltextcol, activebackground=canvascolor, activeforeground=labeltextcol, selectcolor=select_color)
-    trans.config(bg=canvascolor, fg= "white")
+    trans.config(bg=canvascolor, fg= "white", activebackground=canvascolor, activeforeground= labeltextcol)
     ans.config(bg=labelback, fg=labeltextcol)
+    speak.config(bg=canvascolor, fg=labeltextcol, activebackground=canvascolor, activeforeground= labeltextcol)
 resolution_window = None
 resolution_window_open = False
-def openresolutionwindow():
+def openresolutionwindow(): #function that opens resolution window
     global resolution_slider, resolution_window, resvar
     if resvar.get():
         resolution_window = tk.Toplevel(root)  # Create a new Toplevel window
@@ -221,6 +226,9 @@ def updateres(slider_value): #everytime the slider value changes, this command r
     GPy =min(int(180 + (slider_value * 37)), maxhei)
     outy= min(int(210 + (slider_value * 42)), maxhei)
     outwid = int(190+ (slider_value*100))
+    speaksize =int(10 + (slider_value*4))
+    speakx = int(210 + (slider_value*100))
+    speaky =min(int(210 + (slider_value * 42)), maxhei)
 
     Startingnum.config(font=(startnum, startnumsize))
     StartingnumTxt.config(font=(startnum, startnumsize))
@@ -250,6 +258,8 @@ def updateres(slider_value): #everytime the slider value changes, this command r
     GP.place(y=GPy,x=GPx)
     output.place(y=outy, width=outwid)
     
+    speak.config(font=(labelfont, speaksize))
+    speak.place(y=speaky, x=speakx)
     
 
 
@@ -393,7 +403,10 @@ def Geometric():
 
 def destroy():
     root.destroy()
-
+def tts():
+    engine=pyttsx3.init()
+    engine.say("In the first box, type the starting number. In the second box, type the number of terms. In the third box, type the incremental number. Make sure they are all integers")
+    engine.runAndWait()
 
 def calculator():
     
@@ -402,7 +415,6 @@ def calculator():
     root.maxsize(width=canvaswidth, height=canvasheight)
     root.minsize(width=canvaswidth, height=canvasheight)
     root.tk.call('tk', 'scaling', scale)
-
 
 
 
@@ -430,6 +442,7 @@ def calculator():
     global resvar
     resvar = tk.BooleanVar(value=False) #just to keep in track of the tick
     file_menu.add_checkbutton(label='Resolution Bar', command=openresolutionwindow, variable=resvar)
+    
 
 
 
@@ -493,10 +506,12 @@ def calculator():
     GP = tk.Radiobutton(frame, text="Geometric Progression", command=Geometric, value=2, font=(labelfont, GPsize), bg=canvascolor, fg="black", variable=ranvar)
     GP.place(x=GPx, y=GPy)
 
-    #buttons 
+    #buttons
+    global speak
     trans = tk.Button(frame, text="Translate", command=translate, font=(labelfont, transsize), bg=canvascolor, fg="black")
     trans.place(x=transx,y=transy)
-
+    speak = tk.Button(frame, text="Text to Speech", command=tts, font=(labelfont, speaksize),  bg=canvascolor, fg="black")
+    speak.place(x=speakx,y=speaky)
     #Textbox
     original_text = Text(frame)
     translated_text = Text(frame)
