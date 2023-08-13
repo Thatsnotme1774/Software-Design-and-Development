@@ -32,6 +32,7 @@ APnum = "Arithmetic Progression"
 GPnum = "Geometric Progression"
 transmsg = "Translate"
 Errormsg =  "ERROR! TYPE INTEGERS IN ALL BOXES"
+backup = "ERROR! TYPE INTEGERS IN ALL BOXES"
 
 
     #Label settings
@@ -103,7 +104,17 @@ outy = 210
 outwid = 190
 outhei = 80
 
+    #tts
+global ttsbut
+ttsbut = "Text to speech"
 
+    #menu stuff
+optionbut = "Options"
+themebut ="Theme"
+resbut = "Resolution Bar"
+exitbut = "Exit"
+lightbut = "Light mode"
+darkbut = "Dark mode"
 
 #Fucntions
 
@@ -274,74 +285,93 @@ def resolution_slider_change(event): #changes the animation so it looks like the
 
 
 def translate():
-    global startnum, termnum, prognum, APnum, GPnum, transmsg, Errormsg
+    global startnum, termnum, prognum, APnum, GPnum, transmsg, Errormsg, from_languge_key, to_languge_key, ttsbut
     try:
-       if original.get() == translated.get(): #just a quick fix that retranslates it back to english
-        Startingnum.config(text=startnum)
-        Progressionnum.config(text=prognum)
-        Numofterms.config(text=termnum)
-        AP.config(text=APnum)
-        GP.config(text=GPnum)
-        trans.config(text=transmsg)
-        if ans.get("1.0", "end-1c") == Errormsg:
-            ans.config(state=NORMAL)
-            ans.delete("1.0", tk.END)  # Clear the answer
-            ans.insert(tk.END, Errormsg)
-            ans.config(state=DISABLED)
-        else:
-            pass
-       else:                                 #for every other language, this works
+        if original.get() == translated.get(): #just a quick fix that retranslates it back to english
+            Startingnum.config(text=startnum)
+            Progressionnum.config(text=prognum)
+            Numofterms.config(text=termnum)
+            AP.config(text=APnum)
+            GP.config(text=GPnum)
+            trans.config(text=transmsg)
+            speak.config(text=ttsbut)
+            
+            if ans.get("1.0", "end-1c") == Errormsg:
+                ans.config(state=NORMAL)
+                ans.delete("1.0", tk.END)  # Clear the answer
+                ans.insert(tk.END, backup)
+                ans.config(state=DISABLED)
+            else:
+                Errormsg=backup
+        else:                                 #for every other language, this works
         #getting languges 
        #From languge 
-        for key, value in languages.items():
-            if (value == original.get()):
-                from_languge_key =key
+            for key, value in languages.items():
+                if (value == original.get()):
+                    from_languge_key =key
         #TO langauge 
-        for key, value in languages.items():
-            if (value == translated.get()):
-                to_languge_key =key  
+            for key, value in languages.items():
+                if (value == translated.get()):
+                    to_languge_key =key  
         
-        #translating starting number
-        words1 = TextBlob(startnum) #turn og text into textblob
-        words1 = words1.translate(from_lang=from_languge_key , to=to_languge_key)
-        
-        Startingnum.config(text=words1)
+            #translating starting number
+            words1 = TextBlob(startnum) #turn og text into textblob
+            words1 = words1.translate(from_lang=from_languge_key , to=to_languge_key)
+            
+            Startingnum.config(text=words1)
 
-        #translating progression number
-        words2 = TextBlob(prognum) #turn og text into textblob
-        words2 = words2.translate(from_lang=from_languge_key , to=to_languge_key)
-        
-        Progressionnum.config(text=words2)
+            #translating progression number
+            words2 = TextBlob(prognum) #turn og text into textblob
+            words2 = words2.translate(from_lang=from_languge_key , to=to_languge_key)
+            
+            Progressionnum.config(text=words2)
 
-        #translating number of terms
-        words3 = TextBlob(termnum) #turn og text into textblob
-        words3 = words3.translate(from_lang=from_languge_key , to=to_languge_key)
-        Numofterms.config(text=words3)
+            #translating number of terms
+            words3 = TextBlob(termnum) #turn og text into textblob
+            words3 = words3.translate(from_lang=from_languge_key , to=to_languge_key)
+            Numofterms.config(text=words3)
 
-        #translating the AP button
-        words4 = TextBlob(APnum) #turn og text into textblob
-        words4 = words4.translate(from_lang=from_languge_key , to=to_languge_key)
-        AP.config(text=words4)
+            #translating the AP button
+            words4 = TextBlob(APnum) #turn og text into textblob
+            words4 = words4.translate(from_lang=from_languge_key , to=to_languge_key)
+            AP.config(text=words4)
 
-        #translating the GP button
-        words5 = TextBlob(GPnum) #turn og text into textblob
-        words5 = words5.translate(from_lang=from_languge_key , to=to_languge_key)
-        GP.config(text=words5)
+            #translating the GP button
+            words5 = TextBlob(GPnum) #turn og text into textblob
+            words5 = words5.translate(from_lang=from_languge_key , to=to_languge_key)
+            GP.config(text=words5)
 
-        #translating the Translate button
-        words6 = TextBlob(transmsg) #turn og text into textblob
-        words6 = words6.translate(from_lang=from_languge_key , to=to_languge_key)
-        trans.config(text=words6)
+            #translating the Translate button
+            words6 = TextBlob(transmsg) #turn og text into textblob
+            words6 = words6.translate(from_lang=from_languge_key , to=to_languge_key)
+            trans.config(text=words6)
 
-        if ans.get("1.0", "end-1c") == Errormsg:
-            ans.config(state=NORMAL)
-            ans.delete("1.0", tk.END)  # Clear the answer
-            words7 = TextBlob(Errormsg) #turn og text into textblob
-            words7 = words7.translate(from_lang=from_languge_key , to=to_languge_key)
-            ans.insert(tk.END, words7)
-            ans.config(state=DISABLED)
-        else:
-            pass
+            #text to speech
+            words8 = TextBlob(ttsbut)
+            words8 = words8.translate(from_lang=from_languge_key , to=to_languge_key)
+            speak.config(text=words8)
+
+            
+            
+
+            if ans.get("1.0", "end-1c") == Errormsg:
+                ans.config(state=NORMAL)
+                ans.delete("1.0", tk.END)  # Clear the answer
+                words7 = TextBlob(backup) #turn og text into textblob
+                Errormsg = words7.translate(from_lang=from_languge_key , to=to_languge_key)
+                ans.insert(tk.END, Errormsg)
+                ans.config(state=DISABLED)
+            
+            elif ans.get("1.0", "end-1c") == backup: #this fixed a bug
+                ans.config(state=NORMAL)
+                ans.delete("1.0", tk.END)  # Clear the answer
+                words7 = TextBlob(backup) #turn og text into textblob
+                Errormsg = words7.translate(from_lang=from_languge_key , to=to_languge_key)
+                ans.insert(tk.END, Errormsg)
+                ans.config(state=DISABLED)
+            else:
+                words7 = TextBlob(backup) #turn og text into textblob
+                Errormsg = words7.translate(from_lang=from_languge_key , to=to_languge_key)
 
 
 
@@ -359,8 +389,10 @@ def Arithmetic():
 
 
     if not (StartingnumTxt.get().isdecimal() and Progressionnumtxt.get().isdecimal() and NumoftermsTxt.get().isdecimal()): #Checks whether the values are integers or not
-        ans.insert(tk.END, Errormsg) #IF they aren't then it gives an error
-        ans.config(state=DISABLED)
+            ans.config(state=NORMAL)
+            ans.insert(tk.END, Errormsg) #IF they aren't then it gives an error
+            ans.config(state=DISABLED)
+            
     else:                                                          #Else does the calculation
         final = 0
         tempnum = 1
@@ -380,8 +412,10 @@ def Geometric():
     ans.delete(1.0, tk.END)  # Clear the previous output
 
     if not (StartingnumTxt.get().isdecimal() and Progressionnumtxt.get().isdecimal() and NumoftermsTxt.get().isdecimal()): #Checks whether the values are integers or not
-        ans.insert(tk.END, "ERROR! TYPE INTEGERS IN ALL BOXES") #IF they aren't then it gives an error
-        ans.config(state=DISABLED)
+            ans.config(state=NORMAL)
+            ans.insert(tk.END, Errormsg) #IF they aren't then it gives an error
+            ans.config(state=DISABLED)
+        
     else:                                                          #Else does the calculation
 
 
@@ -433,15 +467,15 @@ def calculator():
 
         #Adding a file button
     file_menu = tk.Menu(menubar, tearoff=0) #makng a parent 
-    menubar.add_cascade(label='Options', menu=file_menu) #naming the parent file
+    menubar.add_cascade(label=optionbut, menu=file_menu) #naming the parent file
     
         #making the themes menu a parant 
     theme_menu =tk.Menu(file_menu, tearoff=0) 
         #adding the themes menu
-    file_menu.add_cascade(label='Theme', menu=theme_menu)
+    file_menu.add_cascade(label=themebut, menu=theme_menu)
     global resvar
     resvar = tk.BooleanVar(value=False) #just to keep in track of the tick
-    file_menu.add_checkbutton(label='Resolution Bar', command=openresolutionwindow, variable=resvar)
+    file_menu.add_checkbutton(label=resbut, command=openresolutionwindow, variable=resvar)
     
 
 
@@ -449,15 +483,15 @@ def calculator():
 
 
         #exit button
-    file_menu.add_cascade(label='Exit', command=destroy)
+    file_menu.add_cascade(label=exitbut, command=destroy)
 
     global light_mode_var, dark_mode_var
     light_mode_var = tk.BooleanVar(value=True)  # Initially, light mode is on
     dark_mode_var = tk.BooleanVar(value=not light_mode_var.get()) #does the opposite of light_mode_var, so if light mode var is off this will be on
 
     
-    theme_menu.add_checkbutton(label='Light mode', command=toggle_light_mode ,onvalue = True,offvalue = False, variable=light_mode_var)
-    theme_menu.add_checkbutton(label='Dark mode', variable=dark_mode_var, command=toggle_dark_mode)
+    theme_menu.add_checkbutton(label=lightbut, command=toggle_light_mode ,onvalue = True,offvalue = False, variable=light_mode_var)
+    theme_menu.add_checkbutton(label=darkbut, variable=dark_mode_var, command=toggle_dark_mode)
 
 
 
