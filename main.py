@@ -4,6 +4,7 @@ import googletrans
 from textblob import*
 from tkinter import ttk, messagebox
 import pyttsx3
+from setuptools import setup
 # Setting up tkinter to be used as a GUI. Root is the name of the parent where everything will go to.
 root = tk.Tk()
 
