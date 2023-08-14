@@ -5,6 +5,19 @@ from textblob import*
 from tkinter import ttk, messagebox
 import pyttsx3
 from setuptools import setup
+
+
+APP = ['main.py']
+OPTIONS = {
+    'argv_emulation': True,
+}
+setup(app=APP, options={'py2app':OPTIONS}, setup_requires=["py2app"])
+
+
+
+
+
+
 # Setting up tkinter to be used as a GUI. Root is the name of the parent where everything will go to.
 root = tk.Tk()
 
