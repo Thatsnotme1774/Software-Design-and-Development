@@ -1,5 +1,4 @@
 import tkinter as tk
-import time
 from tkinter import*
 import googletrans
 from textblob import*
@@ -372,6 +371,7 @@ def translate():
             else:
                 words7 = TextBlob(backup) #turn og text into textblob
                 Errormsg = words7.translate(from_lang=from_languge_key , to=to_languge_key)
+            
 
 
 
@@ -461,6 +461,7 @@ def calculator():
     frame.pack(fill=tk.BOTH, expand=True) #fills horizontal and vertical and also expands it
 
     #Menu
+    global menubar
     menubar = tk.Menu(root)
     root.config(menu=menubar)
     global file_menu 
